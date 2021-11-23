@@ -1,0 +1,1 @@
+# kongom2dictionary
