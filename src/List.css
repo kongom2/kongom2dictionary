@@ -1,0 +1,32 @@
+.addButtonFab {
+  left: 80%;
+  background-color: #83b1c9;
+  border: 3px solid black;
+}
+
+.addIcon {
+  color: black;
+}
+
+.textArea {
+  width: 100%;
+  margin: 100px;
+}
+
+.buttonBox {
+  width: 100%;
+  margin: 40px auto 20px auto;
+}
+
+.button {
+  width: 100%;
+}
+/* 
+.backBtn {
+  background-color: green;
+  color: black;
+} */
+
+.addBtn {
+  padding: 16px;
+}
