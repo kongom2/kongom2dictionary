@@ -2,43 +2,62 @@ import React from "react";
 import kongom2img from "./image/bear-face-white.png";
 // 리액트 훅
 import { useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
 // 스타일드 컴포넌트 불러오기
 import styled from "styled-components";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 
+import { useDispatch } from "react-redux";
+import { wordsFB } from "./redux/modules/dictionary";
+
 import "./List.css";
 
 const List = (props) => {
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    dispatch(wordsFB());
+  }, []);
   const history = useHistory();
+  const wordData = useSelector((state) => state.dictionary.wordList);
+  console.log(wordData);
+
   return (
     <ListWrap>
       <TitleBox>
         <TitleImage src={kongom2img} />
         <Title>kongom2dictionary</Title>
       </TitleBox>
+      {wordData.map((u, i) => {
+        return (
+          <Card key={i}>
+            <ContentTitle>단어</ContentTitle>
+            <Content>{u.word}</Content>
+            <ContentTitle>설명</ContentTitle>
+            <Content>{u.desc}</Content>
+            <ContentTitle>예시</ContentTitle>
+            <Content style={{ color: "rgb(9, 132, 227)", fontWeight: "bold" }}>
+              {u.ex}
+            </Content>
+          </Card>
+        );
+      })}
 
-      <Card>
-        <ContentTitle>단어</ContentTitle>
-        <Content></Content>
-        <ContentTitle>설명</ContentTitle>
-        <Content></Content>
-        <ContentTitle>예시</ContentTitle>
-        <Content></Content>
-      </Card>
       <Card></Card>
       <Card></Card>
       <Card></Card>
       <Card></Card>
       <Card></Card>
       <AddButton>
-        <Fab aria-label="add" className="addButtonFab">
-          <AddIcon
-            className="addIcon"
-            onClick={() => {
-              history.push("/add");
-            }}
-          ></AddIcon>
+        <Fab
+          onClick={() => {
+            history.push("/add");
+          }}
+          aria-label="add"
+          className="addButtonFab"
+          color="primary"
+        >
+          <AddIcon className="addIcon"></AddIcon>
         </Fab>
       </AddButton>
     </ListWrap>

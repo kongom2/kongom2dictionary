@@ -5,7 +5,7 @@
 }
 
 .addIcon {
-  color: black;
+  color: white;
 }
 
 .textArea {
@@ -26,7 +26,8 @@
   background-color: green;
   color: black;
 } */
-
+/* 
 .addBtn {
   padding: 16px;
-}
+  font-weight: bold;
+} */
