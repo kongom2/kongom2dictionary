@@ -9,17 +9,17 @@ import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 
 import { useDispatch } from "react-redux";
-import { wordsFB } from "./redux/modules/dictionary";
+import { loadCardFB } from "./redux/modules/dictionary";
 
 import "./List.css";
 
 const List = (props) => {
   const dispatch = useDispatch();
   React.useEffect(() => {
-    dispatch(wordsFB());
+    dispatch(loadCardFB());
   }, []);
   const history = useHistory();
-  const wordData = useSelector((state) => state.dictionary.wordList);
+  const wordData = useSelector((state) => state.dictionary.cardList);
   console.log(wordData);
 
   return (
@@ -42,12 +42,6 @@ const List = (props) => {
           </Card>
         );
       })}
-
-      <Card></Card>
-      <Card></Card>
-      <Card></Card>
-      <Card></Card>
-      <Card></Card>
       <AddButton>
         <Fab
           onClick={() => {

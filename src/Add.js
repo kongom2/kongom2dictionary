@@ -8,16 +8,15 @@ import styled from "styled-components";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 // dictionary 스토어 불러오기
-// import { addWord } from "./redux/modules/dictionary";
+import { addCard, addCardFB } from "./redux/modules/dictionary";
+
 // firebase
-import { db } from "./firebase";
-import { collection, addDoc } from "@firebase/firestore";
+// import { db } from "./firebase";
+// import { collection, addDoc } from "@firebase/firestore";
 
 import "./List.css";
 
 const Add = (props) => {
-  // const [word, setWord] = useState("");
-  // const [inputWord, setInputWord] = useState("");
   const history = useHistory();
   const dispatch = useDispatch();
   const word_ref = useRef(null);
@@ -25,9 +24,6 @@ const Add = (props) => {
   const ex_ref = useRef(null);
   console.log(word_ref);
 
-  // const handleChange = (event) => {
-  //   setInputWord(event.target.value);
-  // };
   return (
     <ListWrap>
       <TitleBox>
@@ -54,9 +50,13 @@ const Add = (props) => {
             size="large"
             onClick={() => {
               console.log(word_ref.current.value);
-              // dispatch(addWord(word_ref.current.value));
-              // dispatch(addWord(desc_ref.current.value));
-              // dispatch(addWord(ex_ref.current.value));
+              dispatch(
+                addCardFB({
+                  word: word_ref.current.value,
+                  desc: desc_ref.current.value,
+                  ex: ex_ref.current.value,
+                })
+              );
               history.push("/");
             }}
           >

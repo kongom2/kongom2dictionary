@@ -2,33 +2,27 @@ import { collection, doc, getDoc, getDocs, addDoc } from "@firebase/firestore";
 import { db } from "../../firebase";
 
 // Actions
-const LOAD = "card/LOAD";
-// const ADD = "card/ADD";
+const LOAD = "card/LOAD"; // Read 카드 불러오기
+const ADD = "card/ADD"; // Create 카드 생성
+const MODIFY = "card/MODIFY"; // 입력값 변경
 
 // Action Creators
 export function loadCard(card_list) {
   return { type: LOAD, card_list };
 }
-// export function addWord(word) {
-//   return { type: ADD, word };
-// }
+export function addCard(card) {
+  return { type: ADD, card };
+}
+export function modifyCard(input_data) {
+  return { type: MODIFY, input_data };
+}
 
 const initialState = {
-  isLoaded: false,
-  wordList: [],
-  // wordList: [
-  //   { word: "dictionary", desc: "사전", ex: "dictionary이다." },
-  //   { word: "dictionary", desc: "사전", ex: "dictionary이다." },
-  //   { word: "dictionary", desc: "사전", ex: "dictionary이다." },
-  //   { word: "dictionary", desc: "사전", ex: "dictionary이다." },
-  //   { word: "dictionary", desc: "사전", ex: "dictionary이다." },
-  //   { word: "dictionary", desc: "사전", ex: "dictionary이다." },
-  // ],
-  lastValue: 0,
+  cardList: [],
 };
 
 // 미들웨어
-export const wordsFB = () => {
+export const loadCardFB = () => {
   return async function (dispatch) {
     const card_data = await getDocs(collection(db, "dictionary"));
     console.log(card_data);
@@ -37,36 +31,41 @@ export const wordsFB = () => {
     card_data.forEach((c) => {
       card_list.push({ ...c.data() });
     });
-    // card_data.forEach((card) => {
-    //   const cardObject = {
-    //     id: card.id,
-    //     ...card.data(),
-    //   };
 
-    //   card_list.push(cardObject);
-    // });
     console.log(card_list);
     dispatch(loadCard(card_list));
   };
 };
 
-// side effects, only as applicable
-// e.g. thunks, epics, etc
-// export function getWidget() {
-//   return (dispatch) =>
-//     get("/widget").then((widget) => dispatch(updateWidget(widget)));
-// }
+export const addCardFB = (card) => {
+  return async function (dispatch) {
+    const docRef = await addDoc(collection(db, "dictionary"), card);
+  };
+};
 
 // Reducer
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case "card/LOAD": {
-      return { ...state, wordList: action.card_list };
+      return { ...state, cardList: action.card_list };
     }
-    // case "word/ADD": {
-    //   console.log(action);
-    //   return { ...state, wordList: action.wordList };
-    // }
+    case "word/ADD": {
+      const { input_data } = action;
+      state.cardList[input_data.index].word = input_data.card.word;
+      state.cardList[input_data.index].desc = input_data.card.desc;
+      state.cardList[input_data.index].ex = input_data.card.ex;
+      return {
+        cardList: [...state.cardList],
+      };
+    }
+    case "card/MODIFY":
+      const { input_data } = action;
+      state.cardList[input_data.index].word = input_data.card.word;
+      state.cardList[input_data.index].desc = input_data.card.desc;
+      state.cardList[input_data.index].ex = input_data.card.ex;
+      return {
+        cardList: [...state.cardList],
+      };
 
     default:
       return state;
