@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, getDocs, addDoc } from "@firebase/firestore";
+import { collection, getDocs, addDoc } from "@firebase/firestore"; // 떄에 따라 추가 doc, getDoc
 import { db } from "../../firebase";
 
 // Actions
@@ -40,6 +40,12 @@ export const loadCardFB = () => {
 export const addCardFB = (card) => {
   return async function (dispatch) {
     const docRef = await addDoc(collection(db, "dictionary"), card);
+    let addCard_list = [];
+    docRef.forEach((doc) => {
+      addCard_list.push({ ...doc.data() });
+    });
+    console.log(addCard_list);
+    dispatch(addCard(addCard_list));
   };
 };
 
@@ -49,13 +55,11 @@ export default function reducer(state = initialState, action = {}) {
     case "card/LOAD": {
       return { ...state, cardList: action.card_list };
     }
-    case "word/ADD": {
-      const { input_data } = action;
-      state.cardList[input_data.index].word = input_data.card.word;
-      state.cardList[input_data.index].desc = input_data.card.desc;
-      state.cardList[input_data.index].ex = input_data.card.ex;
+    case "card/ADD": {
+      const addCardData = [...state.cardList, action.card];
+
       return {
-        cardList: [...state.cardList],
+        cardList: addCardData,
       };
     }
     case "card/MODIFY":

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 // 페이지 불러오기
 import List from "./List";
 import Add from "./Add";
@@ -7,16 +7,14 @@ import NotFound from "./NotFound";
 import { Route, Switch } from "react-router-dom";
 
 function App() {
-  const [word, setWord] = useState("");
-
   return (
     <div className="App">
       <Switch>
         <Route path="/" exact>
-          <List word={word} />
+          <List />
         </Route>
         <Route path="/add" exact>
-          <Add word={word} />
+          <Add />
         </Route>
         <Route>
           <NotFound />

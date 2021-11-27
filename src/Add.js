@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import kongom2img from "./image/bear-face-white.png";
 // 리액트 훅
 import { useHistory } from "react-router-dom";
@@ -9,11 +9,6 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 // dictionary 스토어 불러오기
 import { addCard, addCardFB } from "./redux/modules/dictionary";
-
-// firebase
-// import { db } from "./firebase";
-// import { collection, addDoc } from "@firebase/firestore";
-
 import "./List.css";
 
 const Add = (props) => {
@@ -22,7 +17,6 @@ const Add = (props) => {
   const word_ref = useRef(null);
   const desc_ref = useRef(null);
   const ex_ref = useRef(null);
-  console.log(word_ref);
 
   return (
     <ListWrap>
